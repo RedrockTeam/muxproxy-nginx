@@ -22,6 +22,7 @@ for i = #url_split, 1, -1 do
 
         local path = '/' .. table.concat(utils.slice(url_split, i+1, #url_split, 1), '/') .. (ngx.var.args or '')
         local result = upstream
+        result = ngx.re.gsub(upstream, '\\$api_prefix', ngx.var.api_prefix)
         result = ngx.re.gsub(upstream, '\\$prefix', url_prefix)
         result = ngx.re.gsub(upstream, '\\$path', path)
         return result
