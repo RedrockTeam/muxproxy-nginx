@@ -9,8 +9,8 @@
 ```json
 {
     "upstream": [
-        "http://2.3.3.3/myapp/",
-        "http://6.6.6.6/myapp/"
+        "http://2.3.3.3/myapp$path",
+        "http://6.6.6.6/myapp$path"
     ],
     "request_header": {
         "Host": "myapp.gov.cn"
@@ -25,6 +25,11 @@
 * 定义了两个后端服务器。muxproxy 会根据请求次数做负载均衡，目前没有实现权重。
 * 定义了一个附加请求头，这个请求头会被传给 upstream。
 * 定义了一个附加响应头，这个响应头会被传给客户端。
+
+#### upstream URL 格式
+upstream URL 中可以包含变量，目前定义了两个变量，分别是 `path` 和 `prefix`。
+`path` 的值是请求 url 中 `/api/{prefix-name}/` 之后的部分，以 `/` 开头。
+`prefix` 的值是 `{prefix-name}` 的内容。
 
 ### 错误码
 出错信息，`0` 表示没有出错，其他值表示出错。

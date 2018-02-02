@@ -19,6 +19,11 @@ for i = #url_split, 1, -1 do
             if value == cjson.null then value = nil end
             ngx.headers[name] = value
         end
-        return upstream .. '/' .. ngx.var.app_uri .. ngx.var.args
+
+        local path = '/' .. table.concat(utils.slice(url_split, i+1, #url_split, 1), '/') .. (ngx.var.args or '')
+        local result = upstream
+        result = ngx.re.gsub(upstream, '\\$prefix', url_prefix)
+        result = ngx.re.gsub(upstream, '\\$path', path)
+        return result
     end
 end
